@@ -55,20 +55,8 @@
 
 #include "utils/dynamic.h"
 #include "utils/dynamic_parser.h"
-#include "utils/dynamic_typecasting.h"
+#include "dynamic_typecasting.h"
 
-// State structure for Percentile aggregate functions 
-typedef struct PercentileGroupAggState
-{
-    // percentile value 
-    float8 percentile;
-    // Sort object we're accumulating data in: 
-    Tuplesortstate *sortstate;
-    // Number of normal rows inserted into sortstate: 
-    int64 number_of_rows;
-    // Have we already done tuplesort_performsort? 
-    bool sort_done;
-} PercentileGroupAggState;
 
 typedef enum // type categories for   
 {
@@ -116,22 +104,6 @@ static dynamic_iterator *get_next_object_key(dynamic_iterator *it, dynamic_conta
 static Datum process_access_operator_result(FunctionCallInfo fcinfo, dynamic_value *agtv, bool as_text);
 Datum dynamic_array_element_impl(FunctionCallInfo fcinfo, dynamic *dynamic_in, int element, bool as_text);
 
-PG_FUNCTION_INFO_V1(dynamic_build_map_noargs);
-/*              
- * degenerate case of dynamic_build_map where it gets 0 arguments.
- */                 
-Datum dynamic_build_map_noargs(PG_FUNCTION_ARGS)
-{   
-    dynamic_in_state result;
-    
-    memset(&result, 0, sizeof(dynamic_in_state));
-                                          
-    push_dynamic_value(&result.parse_state, WGT_BEGIN_OBJECT, NULL);
-    result.res = push_dynamic_value(&result.parse_state, WGT_END_OBJECT, NULL); 
-                
-    PG_RETURN_POINTER(dynamic_value_to_dynamic(result.res));
-}    
-
 // fast helper function to test for DYNAMIC_NULL in an dynamic 
 bool is_dynamic_null(dynamic *agt_arg)
 {
@@ -152,15 +124,6 @@ bool is_dynamic_float(dynamic *agt) {
 }
 
 bool is_dynamic_numeric(dynamic *agt) {
-    /*if (!DYNA_ROOT_IS_SCALAR(agt))
-        return false;
-
-    dynamic_value *gtv = get_ith_dynamic_value_from_container(&agt->root, 0);
-
-    if (gtv->type == DYNAMIC_NUMERIC)
-        return true;
-
-    return false;*/
     return DYNA_ROOT_IS_SCALAR(agt) && GTE_IS_NUMERIC(agt->root.children[0]);
 }
 

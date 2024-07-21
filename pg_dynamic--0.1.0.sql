@@ -63,3 +63,15 @@ CREATE TYPE dynamic (
     LIKE = jsonb,
     STORAGE = extended
 );
+
+
+/*
+ * Typecasting
+ */
+ CREATE FUNCTION dynamic_to_int8(dynamic) RETURNS bigint
+ LANGUAGE C IMMUTABLE
+ RETURNS NULL ON NULL INPUT
+ PARALLEL SAFE
+ AS 'MODULE_PATHNAME', 'dynamic_to_int8';
+
+ CREATE CAST (dynamic as int8) WITH FUNCTION dynamic_to_int8(dynamic);

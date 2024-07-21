@@ -21,6 +21,7 @@ OBJS = src/pg_dynamic.o \
        src/namespace.o \
        src/dynamic_io.o \
        src/typecasting.o \
+       src/dynamic_integer.o \
        src/parser.o \
        src/ext.o \
        src/ops.o \
@@ -31,7 +32,8 @@ EXTENSION = pg_dynamic
 DATA = pg_dynamic--0.1.0.sql
 
 # sorted in dependency order
-REGRESS = dynamic
+REGRESS = dynamic \
+          integer
 
 srcdir=`pwd`
 

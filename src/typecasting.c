@@ -33,4 +33,49 @@
 #include "utils/palloc.h"
 
 #include "utils/dynamic.h"
-#include "utils/dynamic_typecasting.h"
+#include "dynamic_typecasting.h"
+
+Datum convert_to_scalar(coearce_function func, dynamic *agt, char *type) {
+    if (!DYNA_ROOT_IS_SCALAR(agt))
+        ereport(ERROR, (errcode(ERRCODE_INVALID_PARAMETER_VALUE), errmsg("cannot cast non-scalar dynamic to %s", type)));
+
+    dynamic_value *gtv = get_ith_dynamic_value_from_container(&agt->root, 0);
+
+    Datum d = func(gtv);
+
+    return d;
+}
+
+/*
+ * Emit correct, translatable cast error message
+ */
+void
+cannot_cast_dynamic_value(enum dynamic_value_type type, const char *sqltype) {
+    static const struct {
+        enum dynamic_value_type type;
+        const char *msg;
+    } messages[] = {
+        {DYNAMIC_NULL, gettext_noop("cannot cast dynamic null to type %s")},
+        {DYNAMIC_STRING, gettext_noop("cannot cast dynamic string to type %s")},
+        {DYNAMIC_NUMERIC, gettext_noop("cannot cast dynamic numeric to type %s")},
+        {DYNAMIC_INTEGER, gettext_noop("cannot cast dynamic integer to type %s")},
+        {DYNAMIC_FLOAT, gettext_noop("cannot cast dynamic float to type %s")},
+        {DYNAMIC_BOOL, gettext_noop("cannot cast dynamic boolean to type %s")},
+    	{DYNAMIC_TIMESTAMP, gettext_noop("cannot cast dynamic timestamp to type %s")},
+	    {DYNAMIC_TIMESTAMPTZ, gettext_noop("cannot cast dynamic timestamptz to type %s")},
+	    {DYNAMIC_DATE, gettext_noop("cannot cast dynamic date to type %s")},
+	    {DYNAMIC_TIME, gettext_noop("cannot cast dynamic time to type %s")},
+	    {DYNAMIC_TIMETZ, gettext_noop("cannot cast dynamic timetz to type %s")},
+        {DYNAMIC_INTERVAL, gettext_noop("cannot cast dynamic interval to type %s")},
+	    {DYNAMIC_ARRAY, gettext_noop("cannot cast dynamic array to type %s")},
+        {DYNAMIC_OBJECT, gettext_noop("cannot cast dynamic object to type %s")},
+        {DYNAMIC_BINARY, gettext_noop("cannot cast dynamic array or object to type %s")}};
+
+    for (int i = 0; i < lengthof(messages); i++) {
+        if (messages[i].type == type) {
+            ereport(ERROR, (errcode(ERRCODE_INVALID_PARAMETER_VALUE), errmsg(messages[i].msg, sqltype)));
+        }
+    }
+
+    elog(ERROR, "unknown dynamic type: %d can't cast to %s", (int)type, sqltype);
+}

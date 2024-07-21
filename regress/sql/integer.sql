@@ -17,9 +17,7 @@
  * under the License.
  */
 
-#ifndef PGRAPH_DYNAMIC_TYPECASTING_H
-#define PGRAPH_DYNAMIC_TYPECASTING_H
-
-
-
-#endif
+ SELECT ('1'::dynamic)::bigint;
+ SELECT ('"1"'::dynamic)::bigint;
+ SELECT ('1.0'::dynamic)::bigint;
+ SELECT ('1::numeric'::dynamic)::bigint;

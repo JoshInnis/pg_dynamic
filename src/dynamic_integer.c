@@ -60,6 +60,21 @@ int8_to_dynamic(PG_FUNCTION_ARGS) {
     AG_RETURN_DYNAMIC_P(dynamic_value_to_dynamic(&gtv));
 }
 
+PG_FUNCTION_INFO_V1(dynamic_tobigint);
+Datum
+dynamic_tobigint(PG_FUNCTION_ARGS) {
+    dynamic *agt = AG_GET_ARG_DYNAMIC_P(0);
+
+    dynamic_value gtv = {
+        .type = DYNAMIC_INTEGER,
+        .val.int_value = DatumGetInt64(convert_to_scalar(dynamic_to_int8_internal, agt, "dynamic integer"))
+    };
+
+    PG_FREE_IF_COPY(agt, 0);
+
+    AG_RETURN_DYNAMIC_P(dynamic_value_to_dynamic(&gtv));
+}
+
 Datum
 dynamic_to_int8_internal(dynamic_value *gtv) {
     if (gtv->type == DYNAMIC_INTEGER)

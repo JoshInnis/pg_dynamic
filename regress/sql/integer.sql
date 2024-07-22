@@ -17,7 +17,6 @@
  * under the License.
  */
 
-
 /*
  * Bigint Typecasting
  */
@@ -51,3 +50,11 @@ SELECT dynamic_tobigint('Infinity');
 SELECT dynamic_tobigint('-Infinity');
 SELECT dynamic_tobigint('inf');
 SELECT dynamic_tobigint('-inf');
+
+
+ SELECT abs('1'::dynamic);
+ SELECT abs('"1"'::dynamic);
+ SELECT abs('1.0'::dynamic);
+ SELECT abs('1::numeric'::dynamic);
+ SELECT abs('-1'::dynamic);
+ SELECT abs('0'::dynamic);

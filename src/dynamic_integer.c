@@ -92,3 +92,22 @@ dynamic_to_int8_internal(dynamic_value *gtv) {
     return 0;
 }
 
+
+
+PG_FUNCTION_INFO_V1(dynamic_abs);
+Datum
+dynamic_abs(PG_FUNCTION_ARGS) {
+    dynamic *agt = AG_GET_ARG_DYNAMIC_P(0);
+
+    dynamic_value gtv = {
+        .type = DYNAMIC_INTEGER,
+        .val.int_value = DirectFunctionCall1(int8abs,
+           convert_to_scalar(dynamic_to_int8_internal, agt, "dynamic integer"))
+    };
+
+    PG_FREE_IF_COPY(agt, 0);
+
+    AG_RETURN_DYNAMIC_P(dynamic_value_to_dynamic(&gtv));
+}
+
+

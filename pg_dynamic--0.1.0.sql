@@ -83,3 +83,19 @@ PARALLEL SAFE
 AS 'MODULE_PATHNAME', 'int8_to_dynamic';
 
 CREATE CAST (int8 as dynamic) WITH FUNCTION int8_to_dynamic(int8);
+
+CREATE FUNCTION dynamic_tobigint(dynamic) RETURNS dynamic
+LANGUAGE C IMMUTABLE
+RETURNS NULL ON NULL INPUT
+PARALLEL SAFE
+AS 'MODULE_PATHNAME', 'dynamic_tobigint';
+
+
+--
+-- Number Functions
+--
+CREATE FUNCTION abs(dynamic) RETURNS dynamic
+LANGUAGE C IMMUTABLE
+RETURNS NULL ON NULL INPUT
+PARALLEL SAFE
+AS 'MODULE_PATHNAME', 'dynamic_abs';

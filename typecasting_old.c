@@ -220,9 +220,9 @@ Datum boolean_to_dynamic(bool b) {
     return DYNAMIC_P_GET_DATUM(agt);
 }
 
-PG_FUNCTION_INFO_V1(dynamic_tointeger);
+PG_FUNCTION_INFO_V1(dynamic_tobigint);
 Datum
-dynamic_tointeger(PG_FUNCTION_ARGS) {
+dynamic_tobigint(PG_FUNCTION_ARGS) {
     dynamic *agt = AG_GET_ARG_DYNAMIC_P(0);
 
     if (is_dynamic_null(agt))

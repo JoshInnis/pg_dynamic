@@ -49,16 +49,16 @@ dynamic_to_int8(PG_FUNCTION_ARGS) {
 
 }
 
-  /*
+PG_FUNCTION_INFO_V1(int8_to_dynamic);
+Datum
+int8_to_dynamic(PG_FUNCTION_ARGS) {
    dynamic_value gtv = {
         .type = DYNAMIC_INTEGER,
-        .val.int_value = DatumGetInt64(convert_to_scalar(dynamic_to_int8_internal, agt, "dynamic integer"))
+        .val.int_value = PG_GETARG_INT64(0)
     };
 
-    PG_FREE_IF_COPY(agt, 0);
-
     AG_RETURN_DYNAMIC_P(dynamic_value_to_dynamic(&gtv));
-*/
+}
 
 Datum
 dynamic_to_int8_internal(dynamic_value *gtv) {

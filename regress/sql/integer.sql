@@ -21,3 +21,5 @@
  SELECT ('"1"'::dynamic)::bigint;
  SELECT ('1.0'::dynamic)::bigint;
  SELECT ('1::numeric'::dynamic)::bigint;
+
+ SELECT (1::bigint)::dynamic;

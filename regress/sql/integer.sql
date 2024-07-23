@@ -66,3 +66,10 @@ SELECT dynamic_tobigint('-inf');
  SELECT gcd('50::numeric'::dynamic, '100'::dynamic);
  SELECT gcd('-1'::dynamic, '100'::dynamic);
  SELECT gcd('101'::dynamic, '100'::dynamic);
+
+ SELECT lcm('10'::dynamic, '100'::dynamic);
+ SELECT lcm('"60"'::dynamic, '100'::dynamic);
+ SELECT lcm('1.0'::dynamic, '100'::dynamic);
+ SELECT lcm('50::numeric'::dynamic, '100'::dynamic);
+ SELECT lcm('-1'::dynamic, '100'::dynamic);
+ SELECT lcm('101'::dynamic, '100'::dynamic);

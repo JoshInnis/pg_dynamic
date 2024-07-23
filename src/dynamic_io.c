@@ -71,7 +71,7 @@ typedef enum // type categories for
     AGT_TYPE_TIME,
     AGT_TYPE_TIMETZ,
     AGT_TYPE_INTERVAL,
-    AGT_TYPE_VECTOR,
+    AGT_TYPE_BOX,
     AGT_TYPE_INET,
     AGT_TYPE_CIDR,
     AGT_TYPE_MAC,
@@ -540,6 +540,8 @@ static void dynamic_in_scalar(void *pstate, char *token, dynamic_token_type toke
             tokentype = DYNAMIC_TOKEN_TIMETZ;
 	else if (len == 8 && pg_strcasecmp(annotation, "interval") == 0)
             tokentype = DYNAMIC_TOKEN_INTERVAL;
+         else if (pg_strcasecmp(annotation, "box") == 0)
+            tokentype = DYNAMIC_TOKEN_BOX;           
         else if (len == 4 && pg_strcasecmp(annotation, "inet") == 0)
             tokentype = DYNAMIC_TOKEN_INET;
         else if (len == 4 && pg_strcasecmp(annotation, "cidr") == 0)
@@ -633,6 +635,14 @@ static void dynamic_in_scalar(void *pstate, char *token, dynamic_token_type toke
         v.val.interval.month = interval->month;
         break;
         }
+    case DYNAMIC_TOKEN_BOX:
+        {
+        Assert(token != NULL);
+
+        v.type = DYNAMIC_BOX;
+        v.val.box = DatumGetBoxP(DirectFunctionCall1(box_in, CStringGetDatum(token)));
+        break;
+        }        
     case DYNAMIC_TOKEN_INET:
         {
         inet *i;

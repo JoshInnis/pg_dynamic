@@ -17,6 +17,8 @@
  * under the License.
  */
 
+SELECT 1::dynamic;
+
 /*
  * Bigint Typecasting
  */

@@ -129,6 +129,18 @@ CREATE OPERATOR * (
     RIGHTARG = dynamic
 );
 
+CREATE FUNCTION dynamic_div(dynamic, dynamic) RETURNS dynamic
+LANGUAGE C IMMUTABLE
+RETURNS NULL ON NULL INPUT
+PARALLEL SAFE
+AS 'MODULE_PATHNAME', 'dynamic_div';
+
+CREATE OPERATOR / (
+    FUNCTION = dynamic_div,
+    LEFTARG = dynamic,
+    RIGHTARG = dynamic
+);
+
 --
 -- Number Functions
 --

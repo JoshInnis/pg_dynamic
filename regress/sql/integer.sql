@@ -73,6 +73,12 @@ SELECT '1.0'::dynamic * '100'::dynamic;
 SELECT '50::numeric'::dynamic * '100'::dynamic;
 SELECT '-1'::dynamic * '100'::dynamic;
 
+SELECT '1000'::dynamic / '100'::dynamic;
+SELECT '"600"'::dynamic / '100'::dynamic;
+SELECT '1000.0'::dynamic / '100'::dynamic;
+SELECT '5000::numeric'::dynamic / '100'::dynamic;
+SELECT '-10000'::dynamic / '100'::dynamic;
+
 --
 -- Functions
 --

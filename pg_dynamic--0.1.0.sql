@@ -117,6 +117,18 @@ CREATE OPERATOR - (
     RIGHTARG = dynamic
 );
 
+CREATE FUNCTION dynamic_mul(dynamic, dynamic) RETURNS dynamic
+LANGUAGE C IMMUTABLE
+RETURNS NULL ON NULL INPUT
+PARALLEL SAFE
+AS 'MODULE_PATHNAME', 'dynamic_mul';
+
+CREATE OPERATOR * (
+    FUNCTION = dynamic_mul,
+    LEFTARG = dynamic,
+    RIGHTARG = dynamic
+);
+
 --
 -- Number Functions
 --

@@ -68,3 +68,22 @@ dynamic_sub(PG_FUNCTION_ARGS) {
     
     AG_RETURN_DYNAMIC_P(dynamic_value_to_dynamic(&dyna_val));    
 }
+
+PG_FUNCTION_INFO_V1(dynamic_mul);
+Datum
+dynamic_mul(PG_FUNCTION_ARGS) {
+    dynamic *lhs = AG_GET_ARG_DYNAMIC_P(0);
+    dynamic *rhs = AG_GET_ARG_DYNAMIC_P(1);
+
+    dynamic_value dyna_val = {
+        .type = DYNAMIC_INTEGER,
+        .val.int_value = DatumGetUInt64(DirectFunctionCall2(int8mul,
+           convert_to_scalar(dynamic_to_int8_internal, lhs, "dynamic integer"),
+           convert_to_scalar(dynamic_to_int8_internal, rhs, "dynamic integer")))
+    };
+
+    PG_FREE_IF_COPY(lhs, 0);
+    PG_FREE_IF_COPY(rhs, 0);
+    
+    AG_RETURN_DYNAMIC_P(dynamic_value_to_dynamic(&dyna_val));    
+}

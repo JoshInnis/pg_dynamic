@@ -59,7 +59,12 @@ SELECT '"60"'::dynamic + '100'::dynamic;
 SELECT '1.0'::dynamic + '100'::dynamic;
 SELECT '50::numeric'::dynamic + '100'::dynamic;
 SELECT '-1'::dynamic + '100'::dynamic;
-1
+
+SELECT '10'::dynamic - '100'::dynamic;
+SELECT '"60"'::dynamic - '100'::dynamic;
+SELECT '1.0'::dynamic - '100'::dynamic;
+SELECT '50::numeric'::dynamic - '100'::dynamic;
+SELECT '-1'::dynamic - '100'::dynamic;
 
 --
 -- Functions

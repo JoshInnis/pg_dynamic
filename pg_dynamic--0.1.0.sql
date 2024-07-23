@@ -90,6 +90,20 @@ RETURNS NULL ON NULL INPUT
 PARALLEL SAFE
 AS 'MODULE_PATHNAME', 'dynamic_tobigint';
 
+--
+-- Operators
+--
+CREATE FUNCTION dynamic_add(dynamic, dynamic) RETURNS dynamic
+LANGUAGE C IMMUTABLE
+RETURNS NULL ON NULL INPUT
+PARALLEL SAFE
+AS 'MODULE_PATHNAME', 'dynamic_add';
+
+CREATE OPERATOR + (
+    FUNCTION = dynamic_add,
+    LEFTARG = dynamic,
+    RIGHTARG = dynamic
+);
 
 --
 -- Number Functions

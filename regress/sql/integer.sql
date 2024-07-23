@@ -51,7 +51,19 @@ SELECT dynamic_tobigint('-Infinity');
 SELECT dynamic_tobigint('inf');
 SELECT dynamic_tobigint('-inf');
 
+--
+-- Operators
+--
+SELECT '10'::dynamic + '100'::dynamic;
+SELECT '"60"'::dynamic + '100'::dynamic;
+SELECT '1.0'::dynamic + '100'::dynamic;
+SELECT '50::numeric'::dynamic + '100'::dynamic;
+SELECT '-1'::dynamic + '100'::dynamic;
+1
 
+--
+-- Functions
+--
  SELECT abs('1'::dynamic);
  SELECT abs('"1"'::dynamic);
  SELECT abs('1.0'::dynamic);

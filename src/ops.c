@@ -106,3 +106,19 @@ dynamic_div(PG_FUNCTION_ARGS) {
     
     AG_RETURN_DYNAMIC_P(dynamic_value_to_dynamic(&dyna_val));    
 }
+
+PG_FUNCTION_INFO_V1(dynamic_uplus);
+Datum
+dynamic_uplus(PG_FUNCTION_ARGS) {
+    dynamic *rhs = AG_GET_ARG_DYNAMIC_P(0);
+
+    dynamic_value dyna_val = {
+        .type = DYNAMIC_INTEGER,
+        .val.int_value = DatumGetUInt64(DirectFunctionCall1(int8up,
+           convert_to_scalar(dynamic_to_int8_internal, rhs, "dynamic integer")))
+    };
+
+    PG_FREE_IF_COPY(rhs, 0);
+    
+    AG_RETURN_DYNAMIC_P(dynamic_value_to_dynamic(&dyna_val));    
+}

@@ -90,6 +90,28 @@ RETURNS NULL ON NULL INPUT
 PARALLEL SAFE
 AS 'MODULE_PATHNAME', 'dynamic_tobigint';
 
+CREATE FUNCTION dynamic_to_inet(dynamic) RETURNS inet
+LANGUAGE C IMMUTABLE
+RETURNS NULL ON NULL INPUT
+PARALLEL SAFE
+AS 'MODULE_PATHNAME', 'dynamic_to_inet';
+
+CREATE CAST (dynamic as inet) WITH FUNCTION dynamic_to_inet(dynamic);
+
+CREATE FUNCTION inet_to_dynamic(inet) RETURNS dynamic
+LANGUAGE C IMMUTABLE
+RETURNS NULL ON NULL INPUT
+PARALLEL SAFE
+AS 'MODULE_PATHNAME', 'inet_to_dynamic';
+
+CREATE CAST (inet as dynamic) WITH FUNCTION inet_to_dynamic(inet);
+
+CREATE FUNCTION dynamic_toinet(dynamic) RETURNS dynamic
+LANGUAGE C IMMUTABLE
+RETURNS NULL ON NULL INPUT
+PARALLEL SAFE
+AS 'MODULE_PATHNAME', 'dynamic_toinet';
+
 --
 -- Operators
 --
@@ -163,6 +185,21 @@ CREATE OPERATOR / (
     LEFTARG = dynamic,
     RIGHTARG = dynamic
 );
+
+/*
+CREATE FUNCTION dynamic_overlap(dynamic, dynamic) RETURNS dynamic
+LANGUAGE C IMMUTABLE
+RETURNS NULL ON NULL INPUT
+PARALLEL SAFE
+AS 'MODULE_PATHNAME', 'dynamic_overlap';
+
+CREATE OPERATOR && (
+    FUNCTION = dynamic_overlap,
+    LEFTARG = dynamic,
+    RIGHTARG = dynamic
+);
+*/
+
 
 --
 -- Number Functions

@@ -47,5 +47,6 @@ typedef Datum (*coearce_function) (dynamic_value *);
 Datum convert_to_scalar(coearce_function func, dynamic *agt, char *type);
 
 Datum dynamic_to_int8_internal(dynamic_value *gtv);
+Datum dynamic_to_inet_internal(dynamic_value *gtv);
 
 #endif

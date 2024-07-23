@@ -138,3 +138,29 @@ dynamic_uminus(PG_FUNCTION_ARGS) {
     
     AG_RETURN_DYNAMIC_P(dynamic_value_to_dynamic(&dyna_val));    
 }
+/*
+PG_FUNCTION_INFO_V1(dynamic_overlap);
+Datum
+dynamic_overlap(PG_FUNCTION_ARGS) {
+    dynamic *lhs = AG_GET_ARG_DYNAMIC_P(0);
+    dynamic *rhs = AG_GET_ARG_DYNAMIC_P(1);
+
+    dynamic_value dyna_val = {
+        .type = DYNAMIC_BOOL
+    };
+
+    Datum result;
+    if (DYNA_IS_BOX(lhs) && DYNA_IS_BOX(rhs))
+       result = DirectFunctionCall2(box_overlap, GT_TO_BOX_DATUM(lhs), GT_TO_BOX_DATUM(rhs));
+    else if (DYNA_IS_POLYGON(lhs) && DYNA_IS_POLYGON(rhs))
+       result = DirectFunctionCall2(poly_overlap, GT_TO_POLYGON_DATUM(lhs), GT_TO_POLYGON_DATUM(rhs));
+    else if (DYNA_IS_CIRCLE(lhs) && DYNA_IS_CIRCLE(rhs))
+        result = DirectFunctionCall2(circle_overlap, GT_TO_CIRCLE_DATUM(lhs), GT_TO_CIRCLE_DATUM(rhs));
+    else
+        result = DirectFunctionCall2(network_overlap, GT_TO_INET_DATUM(lhs), GT_TO_INET_DATUM(rhs));
+
+    dyna_val.val.boolean = DatumGetBool(result);
+
+    AG_RETURN_DYNAMIC_P(dynamic_value_to_dynamic(&dyna_val));
+}
+*/

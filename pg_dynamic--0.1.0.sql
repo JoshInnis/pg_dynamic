@@ -116,6 +116,17 @@ CREATE OPERATOR + (
     RIGHTARG = dynamic
 );
 
+CREATE FUNCTION dynamic_uminus(dynamic) RETURNS dynamic
+LANGUAGE C IMMUTABLE
+RETURNS NULL ON NULL INPUT
+PARALLEL SAFE
+AS 'MODULE_PATHNAME', 'dynamic_uminus';
+
+CREATE OPERATOR - (
+    FUNCTION = dynamic_uminus,
+    RIGHTARG = dynamic
+);
+
 
 CREATE FUNCTION dynamic_sub(dynamic, dynamic) RETURNS dynamic
 LANGUAGE C IMMUTABLE

@@ -111,3 +111,23 @@ dynamic_abs(PG_FUNCTION_ARGS) {
 }
 
 
+PG_FUNCTION_INFO_V1(dynamic_gcd);
+Datum
+dynamic_gcd(PG_FUNCTION_ARGS) {
+    dynamic *agt_0 = AG_GET_ARG_DYNAMIC_P(0);
+    dynamic *agt_1 = AG_GET_ARG_DYNAMIC_P(1);
+
+    dynamic_value gtv = {
+        .type = DYNAMIC_INTEGER,
+        .val.int_value = DatumGetUInt64(DirectFunctionCall2(int8gcd,
+           convert_to_scalar(dynamic_to_int8_internal, agt_0, "dynamic integer"),
+           convert_to_scalar(dynamic_to_int8_internal, agt_1, "dynamic integer")))
+    };
+
+    PG_FREE_IF_COPY(agt_0, 0);
+    PG_FREE_IF_COPY(agt_1, 0);
+
+    AG_RETURN_DYNAMIC_P(dynamic_value_to_dynamic(&gtv));
+}
+
+

@@ -27,10 +27,10 @@
 
  SELECT (1::bigint)::dynamic;
 
-SELECT dynamic_tobigint('1'::dynamic);
-SELECT dynamic_tobigint('"1"'::dynamic);
-SELECT dynamic_tobigint('1.0'::dynamic);
-SELECT dynamic_tobigint('1::numeric'::dynamic);
+SELECT dynamic_tobigint('1');
+SELECT dynamic_tobigint('"1"');
+SELECT dynamic_tobigint('1.0');
+SELECT dynamic_tobigint('1::numeric');
 SELECT dynamic_tobigint('true');
 SELECT dynamic_tobigint('false');
 SELECT dynamic_tobigint('null');
@@ -58,3 +58,11 @@ SELECT dynamic_tobigint('-inf');
  SELECT abs('1::numeric'::dynamic);
  SELECT abs('-1'::dynamic);
  SELECT abs('0'::dynamic);
+
+
+ SELECT gcd('10'::dynamic, '100'::dynamic);
+ SELECT gcd('"60"'::dynamic, '100'::dynamic);
+ SELECT gcd('1.0'::dynamic, '100'::dynamic);
+ SELECT gcd('50::numeric'::dynamic, '100'::dynamic);
+ SELECT gcd('-1'::dynamic, '100'::dynamic);
+ SELECT gcd('101'::dynamic, '100'::dynamic);

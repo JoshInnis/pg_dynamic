@@ -105,6 +105,18 @@ CREATE OPERATOR + (
     RIGHTARG = dynamic
 );
 
+CREATE FUNCTION dynamic_uplus(dynamic) RETURNS dynamic
+LANGUAGE C IMMUTABLE
+RETURNS NULL ON NULL INPUT
+PARALLEL SAFE
+AS 'MODULE_PATHNAME', 'dynamic_uplus';
+
+CREATE OPERATOR + (
+    FUNCTION = dynamic_uplus,
+    RIGHTARG = dynamic
+);
+
+
 CREATE FUNCTION dynamic_sub(dynamic, dynamic) RETURNS dynamic
 LANGUAGE C IMMUTABLE
 RETURNS NULL ON NULL INPUT

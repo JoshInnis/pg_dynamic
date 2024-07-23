@@ -112,6 +112,29 @@ RETURNS NULL ON NULL INPUT
 PARALLEL SAFE
 AS 'MODULE_PATHNAME', 'dynamic_toinet';
 
+
+CREATE FUNCTION dynamic_to_box(dynamic) RETURNS box
+LANGUAGE C IMMUTABLE
+RETURNS NULL ON NULL INPUT
+PARALLEL SAFE
+AS 'MODULE_PATHNAME', 'dynamic_to_box';
+
+CREATE CAST (dynamic as box) WITH FUNCTION dynamic_to_box(dynamic);
+
+CREATE FUNCTION box_to_dynamic(box) RETURNS dynamic
+LANGUAGE C IMMUTABLE
+RETURNS NULL ON NULL INPUT
+PARALLEL SAFE
+AS 'MODULE_PATHNAME', 'box_to_dynamic';
+
+CREATE CAST (box as dynamic) WITH FUNCTION box_to_dynamic(box);
+
+CREATE FUNCTION dynamic_tobox(dynamic) RETURNS dynamic
+LANGUAGE C IMMUTABLE
+RETURNS NULL ON NULL INPUT
+PARALLEL SAFE
+AS 'MODULE_PATHNAME', 'dynamic_tobox';
+
 --
 -- Operators
 --
